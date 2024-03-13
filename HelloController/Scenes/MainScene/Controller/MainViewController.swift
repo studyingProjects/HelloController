@@ -24,7 +24,9 @@ class MainViewController: UIViewController {
 
 extension MainViewController: MainViewDelegate {
     func performAlertHandler(with string: String) {
-        delegate?.updateInfo(with: string)
+        var flexibleString = string
+        let handledString = StringPerform.performStringHandle(with: &flexibleString)
+        delegate?.updateInfo(with: handledString)
     }
 }
 

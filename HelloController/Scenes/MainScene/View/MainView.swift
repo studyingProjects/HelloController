@@ -62,7 +62,7 @@ class MainView: UIView {
 
         let alert = UIAlertController(
             title: "Type in the word",
-            message: "Type the word 'leohi'",
+            message: "Type the word 'leohl'",
             preferredStyle: .alert
         )
         alert.addTextField {
