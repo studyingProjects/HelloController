@@ -8,4 +8,60 @@
 import UIKit
 
 class MainView: UIView {
+    private lazy var button: UIButton = getMainButton()
+    private lazy var label: UILabel = getResultLabel()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        setupView()
+        setupConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupView() {
+        self.backgroundColor = .systemGray4
+        addSubview(button)
+        addSubview(label)
+    }
+
+    private func getMainButton() -> UIButton {
+        let button = UIButton(type: .custom)
+        button.setTitle("Start", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.white, for: .highlighted)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = CommonSizes.cornerRadius
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return button
+    }
+
+    private func getResultLabel() -> UILabel {
+        let label = UILabel()
+        label.textColor = .label
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: LabelSize.Large.fontSize, weight: LabelSize.Large.fontWeight)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }
+}
+
+// MARK: - Constraints
+private extension MainView {
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalToConstant: ButtonSize.Large.width),
+            button.heightAnchor.constraint(equalToConstant: ButtonSize.Large.height),
+            button.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            button.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: CommonSizes.Padding.large),
+
+            label.topAnchor.constraint(equalTo: button.bottomAnchor, constant: CommonSizes.Padding.medium),
+            label.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: CommonSizes.Padding.small),
+            label.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: CommonSizes.Padding.small)
+        ])
+    }
 }
