@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol MainViewControllerDelegate: AnyObject {
+    func updateInfo(with string: String)
+}
+
 class MainView: UIView {
+    var delegate: MainViewDelegate?
+
     private lazy var button: UIButton = getMainButton()
     private lazy var label: UILabel = getResultLabel()
 
@@ -37,6 +43,8 @@ class MainView: UIView {
         button.layer.cornerRadius = CommonSizes.cornerRadius
         button.translatesAutoresizingMaskIntoConstraints = false
 
+        button.addTarget(self, action: #selector(startPressed), for: .touchUpInside)
+
         return button
     }
 
@@ -47,6 +55,35 @@ class MainView: UIView {
         label.font = .systemFont(ofSize: LabelSize.Large.fontSize, weight: LabelSize.Large.fontWeight)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }
+    // MARK: - Action
+    @objc
+    func startPressed() {
+
+        let alert = UIAlertController(
+            title: "Type in the word",
+            message: "Type the word 'leohi'",
+            preferredStyle: .alert
+        )
+        alert.addTextField {
+            $0.placeholder = "leohi"
+        }
+        let action = UIAlertAction(title: "OK", style: .default) { _ in
+            guard let typedWord = alert.textFields?.first?.text else {
+                return
+            }
+
+            self.delegate?.performAlertHandler(with: typedWord)
+        }
+
+        alert.addAction(action)
+        self.window?.rootViewController?.present(alert, animated: true)
+    }
+}
+
+extension MainView: MainViewControllerDelegate {
+    func updateInfo(with string: String) {
+        label.text = string
     }
 }
 

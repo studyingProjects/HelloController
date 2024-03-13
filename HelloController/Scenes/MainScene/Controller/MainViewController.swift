@@ -7,9 +7,24 @@
 
 import UIKit
 
+protocol MainViewDelegate: AnyObject {
+    func performAlertHandler(with string: String)
+}
+
 class MainViewController: UIViewController {
+    var delegate: MainViewControllerDelegate?
+
     override func loadView() {
-        view = MainView()
+        let mainView = MainView()
+        mainView.delegate = self
+        view = mainView
+        delegate = mainView
+    }
+}
+
+extension MainViewController: MainViewDelegate {
+    func performAlertHandler(with string: String) {
+        delegate?.updateInfo(with: string)
     }
 }
 
